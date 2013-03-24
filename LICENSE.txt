@@ -1,4 +1,4 @@
-Copyright (c) 2013 Francesco Rodriguez
+Copyright (c) 2013 Epic Labs
 
 MIT License
 
