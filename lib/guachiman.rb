@@ -1,5 +1,2 @@
-require "guachiman/version"
-
-module Guachiman
-  # Your code goes here...
-end
+require 'guachiman/version'
+require 'guachiman/permission'
