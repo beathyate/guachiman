@@ -1,5 +1,5 @@
 module Guachiman
-  module Permission
+  module Permissions
     attr_reader :allowed_actions, :allow_all
 
     def allow controllers, actions, &block
