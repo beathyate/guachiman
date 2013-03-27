@@ -1,4 +1,8 @@
 require 'guachiman/version'
 require 'guachiman/permissions'
 require 'guachiman/params'
-require 'guachiman/railtie' if defined? Rails
+
+if defined? Rails
+  require 'guachiman/rails/railtie'
+  require 'guachiman/rails/permissible'
+end
