@@ -1,7 +1,8 @@
 Guachiman
 =========
 
-Basic Authorization gem.
+Basic Authorization gem. Based on [RailsCast #385 Authorization from Scratch](http://railscasts.com/episodes/385-authorization-from-scratch-part-1)
+from Ryan Bates.
 
 Installation
 ------------
