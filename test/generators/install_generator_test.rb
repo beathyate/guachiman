@@ -10,6 +10,7 @@ class InstallGeneratorTest < Rails::Generators::TestCase
   setup :prepare_destination
 
   def prepare_destination
+    FileUtils.rm_r "#{DESTINATION}/app"
     FileUtils.mkdir_p "#{DESTINATION}/app"
     FileUtils.mkdir_p "#{DESTINATION}/app/models"
   end
