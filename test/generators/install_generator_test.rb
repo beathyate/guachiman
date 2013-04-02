@@ -18,8 +18,11 @@ class InstallGeneratorTest < Rails::Generators::TestCase
   test 'create permission' do
     run_generator
 
-    assert_file 'app/models/permission.rb', /Permission/
-    assert_file 'app/models/permission.rb', /Guachiman::Permissions/
-    assert_file 'app/models/permission.rb', /Guachiman::Params/
+    assert_file 'app/models/permission.rb' do |f|
+      assert_match /class Permission/, f
+      assert_match /include Guachiman::Permissions/, f
+      assert_match /include Guachiman::Params/, f
+      assert_match /initialize user/, f
+    end
   end
 end
