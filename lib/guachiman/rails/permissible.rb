@@ -18,15 +18,20 @@ module Guachiman
       raise 'This method must be implemented'
     end
 
-    def not_authorized
-      raise 'This method must be implemented'
-    end
-
     def authorize
-      if current_permission.allow?(params[:controller], params[:action], current_resource)
+      if current_permission.allow? params[:controller], params[:action], current_resource
         current_permission.permit_params! if current_permission.respond_to? :permit_params!
       else
         not_authorized
+      end
+    end
+
+    def not_authorized
+      if current_user
+          redirect_to :root, alert: t(:not_authorized)
+        else
+          redirect_to :login, alert: t(:please_login)
+        end
       end
     end
   end
