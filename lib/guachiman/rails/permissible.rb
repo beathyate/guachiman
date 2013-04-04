@@ -28,10 +28,9 @@ module Guachiman
 
     def not_authorized
       if current_user
-          redirect_to :root, alert: t(:not_authorized)
-        else
-          redirect_to :login, alert: t(:please_login)
-        end
+        redirect_to :root, alert: t(:not_authorized)
+      else
+        redirect_to :login, alert: t(:please_login)
       end
     end
   end
