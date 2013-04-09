@@ -3,7 +3,7 @@ module Guachiman
     attr_reader :allowed_actions, :allow_all
 
     def allow controllers, actions, &block
-      @allowed_actions ||= Hash.new
+      @allowed_actions ||= {}
       Array(controllers).each do |controller|
         Array(actions).each do |action|
           allowed_actions[controller] ||= {}
