@@ -1,6 +1,7 @@
 require 'guachiman/version'
 require 'guachiman/permissions'
 require 'guachiman/params'
+require 'active_record'
 require 'strong_parameters'
 
 if defined? Rails
