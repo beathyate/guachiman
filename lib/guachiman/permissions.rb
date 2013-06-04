@@ -7,9 +7,7 @@ module Guachiman
       Array(controllers).each do |controller|
         Array(actions).each do |action|
           allowed_actions[controller] ||= {}
-          allowed_actions[controller].merge!({
-            action => (block || true)
-          })
+          allowed_actions[controller].merge! action => (block || true)
         end
       end
     end

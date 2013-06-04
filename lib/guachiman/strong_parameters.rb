@@ -23,9 +23,7 @@ module Guachiman
         params.permit!
       elsif allowed_params
         allowed_params.each do |resource, attributes|
-          if params[resource].respond_to? :permit
-            params[resource] = params[resource].permit(*attributes)
-          end
+          params[resource] = params[resource].permit(*attributes) if params[resource].respond_to? :permit
         end
       end
     end
