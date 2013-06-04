@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'railties', '>= 3.2'
+  spec.add_dependency 'strong_parameters', '>= 0.2.1'
   spec.add_development_dependency 'minitest'
   spec.add_development_dependency 'minitest-focus'
   spec.add_development_dependency 'bundler', '~> 1.3'
