@@ -4,13 +4,15 @@ require 'generators/guachiman/install/install_generator'
 
 class InstallGeneratorTest < Rails::Generators::TestCase
   DESTINATION = File.expand_path File.join(File.dirname(__FILE__), '..', '..', 'tmp')
+  FileUtils.mkdir_p DESTINATION unless Dir.exists? DESTINATION
+
   destination DESTINATION
 
   tests Guachiman::Generators::InstallGenerator
   setup :prepare_destination
 
   def prepare_destination
-    FileUtils.rm_r "#{DESTINATION}/app"
+    FileUtils.rm_r    "#{DESTINATION}/app" if Dir.exists? "#{DESTINATION}/app"
     FileUtils.mkdir_p "#{DESTINATION}/app"
     FileUtils.mkdir_p "#{DESTINATION}/app/models"
   end
