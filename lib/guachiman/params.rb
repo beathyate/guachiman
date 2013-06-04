@@ -27,6 +27,10 @@ module Guachiman
       allow_write_param resources, attributes
     end
 
+    def allow_param? resource, attribute
+      allow_write_param?(resource, attribute) && allow_read_param?(resource, attribute)
+    end
+
     def permit_params! params
       if @allow_all
         params.permit!
