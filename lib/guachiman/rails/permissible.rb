@@ -20,7 +20,7 @@ module Guachiman
 
     def authorize
       if current_permission.allow? params[:controller], params[:action], current_resource
-        current_permission.permit_params!(params) if current_permission.respond_to? :permit_params!
+        current_permission.permit_params! params
       else
         not_authorized
       end
