@@ -22,6 +22,10 @@ module Guachiman
       end
     end
 
+    def allowed_params
+      read_allowed_params & write_allowed_params
+    end
+
     def allow_param resources, attributes
       allow_read_param  resources, attributes
       allow_write_param resources, attributes
