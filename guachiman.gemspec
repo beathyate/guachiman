@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Francesco Rodriguez', 'Gustavo Beathyate']
   spec.email         = ['lrodriguezsanc@gmail.com', 'gustavo@epiclabs.pe']
   spec.summary       = 'Basic authorization library'
-  spec.description   = spec.summary << ' based on Ryan Bates\' Railscasts #385 and #386'
+  spec.description   = "#{spec.summary} based on Ryan Bates' Railscasts #385 and #386"
   spec.homepage      = 'https://github.com/epiclabs/guachiman'
   spec.license       = 'MIT'
 
