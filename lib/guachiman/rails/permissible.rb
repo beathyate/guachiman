@@ -4,6 +4,8 @@ module Guachiman
 
     included do
       before_filter :authorize
+      helper_method :current_user
+      helper_method :current_permission
     end
 
     def current_user
@@ -13,7 +15,6 @@ module Guachiman
     def current_permission
       @current_permission ||= Permission.new current_user
     end
-    helper_method :current_permission
 
     def current_resource
       nil
