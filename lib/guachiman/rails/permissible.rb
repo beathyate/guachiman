@@ -27,11 +27,8 @@ module Guachiman
     end
 
     def not_authorized
-      if current_user
-        redirect_to root_path, alert: t(:not_authorized)
-      else
-        redirect_to login_path, alert: t(:please_login)
-      end
+      session[:next] = request.url unless current_user
+      redirect_to root_path, alert: t(current_user ? 'flashes.not_authorized' : 'flashes.please_login')
     end
   end
 end
