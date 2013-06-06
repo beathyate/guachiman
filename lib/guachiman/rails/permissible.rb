@@ -6,16 +6,16 @@ module Guachiman
       before_filter :authorize
     end
 
+    def current_user
+      raise 'This method must be implemented'
+    end
+
     def current_permission
       @current_permission ||= Permission.new current_user
     end
 
     def current_resource
       nil
-    end
-
-    def current_user
-      raise 'This method must be implemented'
     end
 
     def authorize
