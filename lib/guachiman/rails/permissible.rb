@@ -13,6 +13,7 @@ module Guachiman
     def current_permission
       @current_permission ||= Permission.new current_user
     end
+    helper_method :current_permission
 
     def current_resource
       nil
