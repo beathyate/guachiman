@@ -17,8 +17,8 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'railties', '>= 3.2'
-  spec.add_dependency 'activerecord', '>= 3.2'
+  spec.add_dependency 'railties', '>= 3.0'
+  spec.add_dependency 'activerecord', '>= 3.0'
   spec.add_dependency 'strong_parameters', '>= 0.2.1'
   spec.add_development_dependency 'minitest'
   spec.add_development_dependency 'minitest-focus'
