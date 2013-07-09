@@ -51,7 +51,7 @@ end
 
 def not_signed_in
   session[:next] = request.url
-  redirect_to sign_in_path, alert: t('flashes.please_login')
+  redirect_to sign_in_path, alert: t('flashes.please_sign_in')
 end
 ```
 
