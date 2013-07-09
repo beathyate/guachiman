@@ -42,6 +42,19 @@ def current_user
 end
 ```
 
+You can also override these methods to handle failed authorizations:
+
+```ruby
+def not_authorized
+  redirect_to root_path, alert: t('flashes.not_authorized')
+end
+
+def not_signed_in
+  session[:next] = request.url
+  redirect_to sign_in_path, alert: t('flashes.please_login')
+end
+```
+
 That's it, now you can describe your permissions in this way:
 
 ```ruby
@@ -85,4 +98,6 @@ class Permission
 end
 ```
 
-The method `allow` takes a controller params key and an array of actions. The method `allow_param` takes a model params key and an array of attributes. The method `allow_all!` is a convinience method to allow all controlles, actions and parameteres.
+* `allow` takes a controller params key and an array of actions.
+* `allow_param` takes a model params key and an array of attributes.
+* `allow_all!` is a convinience method to allow all controlles, actions and parameteres.

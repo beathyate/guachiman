@@ -24,13 +24,21 @@ module Guachiman
       if current_permission.allow? controller_name, action_name, current_resource
         current_permission.permit_params! params
       else
-        not_authorized
+        if current_user
+          not_authorized
+        else
+          not_signed_in
+        end
       end
     end
 
     def not_authorized
-      session[:next] = request.url unless current_user
-      redirect_to root_path, alert: t(current_user ? 'flashes.not_authorized' : 'flashes.please_login')
+      redirect_to root_path, alert: t('flashes.not_authorized')
+    end
+
+    def not_signed_in
+      session[:next] = request.url
+      redirect_to sign_in_path, alert: t('flashes.please_sign_in')
     end
   end
 end
