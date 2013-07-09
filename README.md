@@ -9,26 +9,24 @@ Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'guachiman'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install guachiman
-
-Usage
------
-
-Include it in your `Gemfile`
-
 ```ruby
 gem 'guachiman'
 ```
 
-Run `bundle install`
+And then execute:
+
+```bash
+$ bundle
+```
+
+Or install it yourself as:
+
+```bash
+$ gem install guachiman
+```
+
+Usage
+-----
 
 Run `rails g guachiman:install`
 
