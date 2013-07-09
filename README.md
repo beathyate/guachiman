@@ -22,4 +22,69 @@ Or install it yourself as:
 Usage
 -----
 
-TODO: Write usage instructions here
+Include it in your `Gemfile`
+
+```ruby
+gem 'guachiman'
+```
+
+Run `bundle install`
+
+Run `rails g guachiman:install`
+
+This will generate a `Permission.rb` file in `app/models`.
+
+Include `Guachiman::Permissible` in `ApplicationController` and implemente a `current_user` method there.
+
+```ruby
+include Guachiman::Permissible
+
+def current_user
+  @current_user ||= User.find_by_auth_token(cookies[:auth_token]) if cookies[:auth_token]
+end
+```
+
+That's it, now you can describe your permissions in this way:
+
+```ruby
+class Permission
+  include Guachiman::Permissions
+  include Guachiman::Params
+
+  attr_reader :user
+
+  def initialize current_user
+    @user = current_user
+
+    if user.nil?
+      guest
+    elsif user.admin?
+      admin
+    else
+      member
+    end
+  end
+
+  private
+
+  def guest
+    allow :sessions,   [:new, :create, :destroy]
+    allow :identities, [:new, :create]
+    allow :passwords,  [:new, :create]
+
+    allow_param :user, [:name, :email, :password]
+  end
+
+  def member
+    guest
+    allow :identities, [:show, :edit, :update]
+    allow :passwords,  [:edit, :update]
+  end
+
+  def admin
+    allow_all!
+  end
+end
+```
+
+The method `allow` takes a controller params key and an array of actions. The method `allow_param` takes a model params key and an array of attributes. The method `allow_all!` is a convinience method to allow all controlles, actions and parameteres.
