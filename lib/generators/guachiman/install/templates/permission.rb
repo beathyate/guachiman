@@ -2,7 +2,7 @@ class Permission
   include Guachiman::Permissions
   include Guachiman::Params
 
-  def initialize user
+  def initialize user, options={}
     if user.nil?
       guest
     elsif user.admin?
