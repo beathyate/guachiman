@@ -13,7 +13,7 @@ module Guachiman
     end
 
     def current_permission
-      @current_permission ||= Permission.new current_user, request: request
+      @current_permission ||= Permission.new current_user, request
     end
 
     def current_resource
