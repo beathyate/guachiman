@@ -146,3 +146,31 @@ def member
   end
 end
 ```
+
+You can also be more specific about the param permissions setting them to be read or write.
+
+```ruby
+def member
+  ...
+
+  allow_read_param  :contact, [:name, :phone, :email]
+  allow_write_param :contact, [:name, :phone]
+end
+```
+
+That can also be useful on the views because you get a `current_permission` helper that you can use like this:
+
+```ruby
+<%= form_for current_resource do |f| %>
+  <% current_permission.write_allowed_params.each do |p| %>
+    <%= f.text_field p %>
+  <% end %>
+
+  <%= f.submit %>
+<% end %>
+```
+
+License
+-------
+
+MIT
