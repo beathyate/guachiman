@@ -105,9 +105,9 @@ private
 end
 ```
 
-* `allow` takes a controller params key and an array of actions.
-* `allow_param` takes a model params key and an array of attributes.
-* `allow_all!` is a convinience method to allow all controlles, actions and parameteres.
+* `#allow` takes a **controller** params key or array of keys and an array of **actions**.
+* `#allow_param` takes a **model** params key or array of keys and an array of **attributes**.
+* `#allow_all!` is a convinience method to allow **all** controllers, actions and parameteres.
 
 You can also go a bit further in the way you specify your permissions, if you override `current_resource`:
 
@@ -122,9 +122,11 @@ private
 end
 ```
 
-The `current_resource` is passed to a block that needs to return truthy value.
+The `current_resource` is passed to a block that needs to return truthy object.
 
 ```ruby
+...
+
 def guest
   allow :orders, [:show, :edit, :update] do |order|
     order.accessible_by_token? request.cookies['cart_token']
@@ -136,4 +138,6 @@ def member
     order.accessible_by_user? user
   end
 end
+
+...
 ```
