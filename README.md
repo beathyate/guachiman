@@ -85,7 +85,7 @@ class Permission
     end
   end
 
-  private
+private
 
   def guest
     allow :sessions,   [:new, :create, :destroy]
@@ -110,3 +110,32 @@ end
 * `allow` takes a controller params key and an array of actions.
 * `allow_param` takes a model params key and an array of attributes.
 * `allow_all!` is a convinience method to allow all controlles, actions and parameteres.
+
+You can also go a bit further in the way you specify your permissions, if you override `current_resource`:
+
+```ruby
+class OrdersController < ApplicationController
+...
+
+private
+  def current_resource
+    @order ||= params[:id].present? ? Order.find(params[:id]) : Order.new
+  end
+end
+```
+
+The `current_resource` is passed to a block that needs to return truthy value.
+
+```ruby
+def guest
+  allow :orders, [:show, :edit, :update] do |order|
+    order.accessible_by_token? request.cookies['cart_token']
+  end
+end
+
+def member
+  allow :orders, [:show, :edit, :update] do |order|
+    order.accessible_by_user? user
+  end
+end
+```
