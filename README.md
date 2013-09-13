@@ -88,17 +88,15 @@ class Permission
 private
 
   def guest
-    allow :sessions,   [:new, :create, :destroy]
-    allow :identities, [:new, :create]
-    allow :passwords,  [:new, :create]
+    allow :sessions, [:new, :create, :destroy]
+    allow :users,    [:new, :create]
 
     allow_param :user, [:name, :email, :password]
   end
 
   def member
     guest
-    allow :identities, [:show, :edit, :update]
-    allow :passwords,  [:edit, :update]
+    allow :users, [:show, :edit, :update]
   end
 
   def admin
