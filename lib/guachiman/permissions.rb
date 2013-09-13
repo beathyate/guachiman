@@ -12,11 +12,7 @@ module Guachiman
       end
     end
 
-    def allow_resource controllers, &block
-      allow controllers, [:index, :show, :new, :create, :edit, :update, :destroy]
-    end
-
-    def allow? controller, action, resource = nil
+    def allow? controller, action, resource=nil
       allowed = allow_all || check_allowed_action(controller, action)
       !!allowed && (allowed == true || resource && allowed.call(resource))
     end
