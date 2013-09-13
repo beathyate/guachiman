@@ -2,15 +2,15 @@ class Permission
   include Guachiman::Permissions
   include Guachiman::Params
 
-  attr_reader :user, :request
+  attr_reader :current_user, :current_request
 
-  def initialize current_user, current_request
-    @user    = current_user
-    @request = current_request
+  def initialize user, request
+    @current_user    = user
+    @current_request = request
 
-    if user.nil?
+    if current_user.nil?
       guest
-    elsif user.admin?
+    elsif current_user.admin?
       admin
     else
       member

@@ -70,15 +70,15 @@ class Permission
   include Guachiman::Permissions
   include Guachiman::Params
 
-  attr_reader :user, :request
+  attr_reader :current_user, :current_request
 
-  def initialize current_user, current_request
-    @user    = current_user
-    @request = current_request
+  def initialize user, request
+    @current_user    = user
+    @current_request = request
 
-    if user.nil?
+    if current_user.nil?
       guest
-    elsif user.admin?
+    elsif current_user.admin?
       admin
     else
       member
@@ -125,19 +125,24 @@ end
 The `current_resource` is passed to a block that needs to return truthy object.
 
 ```ruby
-...
-
 def guest
-  allow :orders, [:show, :edit, :update] do |order|
+  allow :sessions, [:new, :create, :destroy]
+  allow :users,    [:new, :create]
+  allow :orders,   [:show, :edit, :update] do |order|
     order.accessible_by_token? request.cookies['cart_token']
   end
+
+  allow_param :user, [:name, :email, :password]
 end
 
 def member
+  guest
+
+  allow :users,  [:show, :edit, :update] do |user|
+    current_user == user
+  end
   allow :orders, [:show, :edit, :update] do |order|
     order.accessible_by_user? user
   end
 end
-
-...
 ```
