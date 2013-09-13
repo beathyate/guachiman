@@ -122,7 +122,7 @@ private
 end
 ```
 
-The `current_resource` is passed to a block that needs to return truthy object.
+The `current_resource` is passed to a block that needs to return a truthy object to allow the action.
 
 ```ruby
 def guest
