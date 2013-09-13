@@ -6,6 +6,7 @@ module Guachiman
       before_filter :authorize
       helper_method :current_user
       helper_method :current_permission
+      helper_method :current_resource
     end
 
     def current_user
