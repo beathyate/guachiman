@@ -25,7 +25,7 @@ module Guachiman
       if current_permission.allow? controller_name, action_name, current_resource
         current_permission.permit_params! params
       else
-        if request.get?
+        if request.get? && !request.xhr?
           current_user ? not_authorized : not_signed_in
         else
           render_unauthorized
