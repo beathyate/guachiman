@@ -32,7 +32,7 @@ Run `rails g guachiman:install`
 
 This will generate a `permission.rb` file in `app/models`.
 
-Include `Guachiman::Permissible` in `ApplicationController` and implemente a `current_user` method there.
+Include `Guachiman::Permissible` in `ApplicationController` and implement a `current_user` method there.
 
 ```ruby
 include Guachiman::Permissible
