@@ -129,7 +129,7 @@ def guest
   allow :sessions, [:new, :create, :destroy]
   allow :users,    [:new, :create]
   allow :orders,   [:show, :edit, :update] do |order|
-    order.accessible_by_token? request.cookies['cart_token']
+    order.accessible_by_token? current_request.cookies['cart_token']
   end
 
   allow_param :user, [:name, :email, :password]
