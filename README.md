@@ -42,7 +42,7 @@ def current_user
 end
 ```
 
-You can also override these methods to handle failed authorizations:
+You can also override these methods to handle failed authorizations for GET, non-AJAX requests:
 
 ```ruby
 def not_authorized
@@ -52,6 +52,14 @@ end
 def not_signed_in
   session[:next] = request.url
   redirect_to sign_in_path, alert: t('flashes.please_sign_in')
+end
+```
+
+And you can also override this method to handle failed non-GET or AJAX requests:
+
+```ruby
+def render_unauthorized
+  render text: "NO", status: :unauthorized
 end
 ```
 
