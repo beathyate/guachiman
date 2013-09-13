@@ -161,8 +161,8 @@ end
 That can also be useful on the views because you get a `current_permission` helper that you can use like this:
 
 ```erb
-<%= form_for current_resource do |f| %>
-  <% current_permission.write_allowed_params.each do |p| %>
+<%= form_for @contact do |f| %>
+  <% current_permission.write_allowed_params[:contact].each do |p| %>
     <%= f.text_field p %>
   <% end %>
 
