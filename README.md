@@ -107,7 +107,7 @@ end
 
 * `#allow` takes a **controller** params key or array of keys and an array of **actions**.
 * `#allow_param` takes a **model** params key or array of keys and an array of **attributes**.
-* `#allow_all!` is a convinience method to allow **all** controllers, actions and parameteres.
+* `#allow_all!` is a convenience method to allow **all** controllers, actions and parameteres.
 
 You can also go a bit further in the way you specify your permissions, if you override `current_resource`:
 
