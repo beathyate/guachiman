@@ -25,6 +25,8 @@ module Guachiman
   def allow?(group, permission, object = nil)
     if result = allow_all? || rules[group] && rules[group][permission]
       result == true || object && result.call(object)
+    else
+      false
     end
   end
 end
