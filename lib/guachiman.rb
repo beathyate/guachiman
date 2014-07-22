@@ -1,9 +1,30 @@
 require 'guachiman/version'
-require 'guachiman/permissions'
-require 'guachiman/params'
 
-if defined? Rails
-  require 'guachiman/rails/railtie'
-  require 'guachiman/rails/permissible'
-  require 'active_record'
+module Guachiman
+  def allow_all!
+    @_allow_all = true
+  end
+
+  def allow_all?
+    @_allow_all
+  end
+
+  def rules
+    @_rules ||= {}
+  end
+
+  def allow(groups, permissions, &block)
+    Array(groups).each do |group|
+      Array(permissions).each do |permission|
+        rules[group] ||= {}
+        rules[group][permission] = (block || true)
+      end
+    end
+  end
+
+  def allow?(group, permission, object = nil)
+    if result = allow_all? || rules[group] && rules[group][permission]
+      result == true || object && result.call(object)
+    end
+  end
 end
