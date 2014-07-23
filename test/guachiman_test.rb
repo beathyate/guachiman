@@ -1,6 +1,8 @@
-require 'test_helper'
+require 'bundler/setup'
+require 'minitest/autorun'
+require 'guachiman'
 
-class GuachimanTest < MiniTest::Unit::TestCase
+class GuachimanTest < MiniTest::Test
   def setup
     guachiman_class = Class.new do
       include Guachiman
@@ -28,7 +30,7 @@ class GuachimanTest < MiniTest::Unit::TestCase
     @guest_authorization = guachiman_class.new(false)
   end
 
-  def test_admin_is_always_allowed
+  def test_allow_without_params_is_nuclear_option
     assert @admin_authorization.allow?(:any_group, :any_permission)
   end
 
