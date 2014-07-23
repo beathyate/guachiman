@@ -4,55 +4,31 @@ require 'guachiman'
 
 class GuachimanTest < MiniTest::Test
   def setup
-    guachiman_class = Class.new do
+    @authorization = Class.new do
       include Guachiman
 
-      def initialize(admin = false)
-        if admin
-          allow
-        else
-          allow :basic_group
+      def initialize
+        allow :group, [:permission1, :permission2]
 
-          allow :block_group do |object|
-            object == 1
-          end
-
-          allow :group, :basic_permission
-
-          allow :group, :block_permission do |object|
-            object == 1
-          end
+        allow :group, [:permission3, :permission4] do |object|
+          object == 1
         end
       end
-    end
-
-    @admin_authorization = guachiman_class.new(true)
-    @guest_authorization = guachiman_class.new(false)
+    end.new
   end
 
-  def test_allow_without_params_is_nuclear_option
-    assert @admin_authorization.allow?(:any_group, :any_permission)
+  def test_basic_rules
+    refute @authorization.allow?(:group, :permission0)
+    assert @authorization.allow?(:group, :permission1)
+    assert @authorization.allow?(:group, :permission2)
   end
 
-  def test_group_basic_rules
-    refute @guest_authorization.allow?(:other_group, :any_permission)
-    assert @guest_authorization.allow?(:basic_group, :any_permission)
-  end
-
-  def test_group_block_rules
-    refute @guest_authorization.allow?(:block_group, :any_permission)
-    refute @guest_authorization.allow?(:block_group, :any_permission, 0)
-    assert @guest_authorization.allow?(:block_group, :any_permission, 1)
-  end
-
-  def test_permission_basic_rules
-    refute @guest_authorization.allow?(:group, :other_permission)
-    assert @guest_authorization.allow?(:group, :basic_permission)
-  end
-
-  def test_permission_block_rules
-    refute @guest_authorization.allow?(:group, :block_permission)
-    refute @guest_authorization.allow?(:group, :block_permission, 0)
-    assert @guest_authorization.allow?(:group, :block_permission, 1)
+  def test_block_rules
+    refute @authorization.allow?(:group, :permission3)
+    refute @authorization.allow?(:group, :permission4)
+    refute @authorization.allow?(:group, :permission3, 0)
+    refute @authorization.allow?(:group, :permission4, 0)
+    assert @authorization.allow?(:group, :permission3, 1)
+    assert @authorization.allow?(:group, :permission4, 1)
   end
 end

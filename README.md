@@ -57,14 +57,8 @@ class Authorization
   include Guachiman
 
   def initialize(user)
-    @current_user = user
-
-    if @current_user
-      if @current_user.admin?
-        admin_authorization
-      else
-        member_authorization
-      end
+    if @current_user = user
+      member_authorization
     else
       guest_authorization
     end
@@ -73,9 +67,7 @@ class Authorization
 private
 
   def guest_authorization
-    allow :sessions
-
-    allow :users, [:new, :create]
+    allow :sessions, [:new]
   end
 
   def member_authorization
@@ -85,10 +77,6 @@ private
       @current_user.id == user_id
     end
   end
-
-  def admin_authorization
-    allow
-  end
 end
 ```
 
@@ -96,12 +84,11 @@ So that you can use them like this:
 
 ```ruby
 user  = User.find(user_id)
-admin = User.find(admin_id)
 
+guest_authorization = Authorization.new
 user_authorization  = Authorization.new(user)
-admin_authorization = Authorization.new(admin)
 
-user_authorization.allow?(:sessions, :new)
+guest_authorization.allow?(:sessions, :new)
 # => true
 
 user_authorization.allow?(:users, :show)
@@ -109,19 +96,12 @@ user_authorization.allow?(:users, :show)
 
 user_authorization.allow?(:users, :show, user.id)
 # => true
-
-admin_authorization.allow?(:users, :show)
-# => true
 ```
 
 ### `#allow`
 
-This is what you use to set permissions. It takes two parameters, `groups` and `permissions`, and a block.
-All are optional and depend on how specific you want to be. Always consider the following:
-
-1. If you call `#allow` without params, it means all combinations of groups and permissions will be allowed.
-2. If you call `#allow` specifying only the group, all permissions within that group will be allowed.
-3. You can always pass a block that takes an object, and the permission will depend on what returns when evaluated.
+This is what you use to set permissions. It takes two parameters, `group` and `permissions`, and a block.
+All are optional and depend on how specific you want to be.
 
 ### `#allow?`
 
