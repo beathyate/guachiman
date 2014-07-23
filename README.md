@@ -54,7 +54,7 @@ Describe your authorization objects in this way:
 class Authorization
   include Guachiman
 
-  def initialize(user)
+  def initialize(user = nil)
     if @current_user = user
       user_authorization
     else
