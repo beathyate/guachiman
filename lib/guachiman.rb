@@ -1,4 +1,4 @@
-require 'guachiman/version'
+require "guachiman/version"
 
 module Guachiman
   def rules
