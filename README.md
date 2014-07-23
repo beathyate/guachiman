@@ -100,8 +100,7 @@ user_authorization.allow?(:users, :show, user.id)
 
 ### `#allow`
 
-This is what you use to set permissions. It takes two parameters, `group` and `permissions`, and a block.
-All are optional and depend on how specific you want to be.
+This is what you use to set permissions. It takes two parameters, `group` and `permissions`, and an optional block.
 
 ### `#allow?`
 
