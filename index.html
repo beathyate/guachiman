@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>guachiman by goddamnhippie</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>guachiman</h1>
+        <p>Minimal authorization library</p>
+
+        <p class="view"><a href="https://github.com/goddamnhippie/guachiman">View the Project on GitHub <small>goddamnhippie/guachiman</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/goddamnhippie/guachiman/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/goddamnhippie/guachiman/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/goddamnhippie/guachiman">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="guachiman" class="anchor" href="#guachiman"><span class="octicon octicon-link"></span></a>Guachiman</h1>
+
+<p>Minimal authorization library inspired by <a href="http://railscasts.com/episodes/385-authorization-from-scratch-part-1">RailsCast #385 Authorization from Scratch</a> by Ryan Bates.</p>
+
+<p>Guachiman allows you to store authorization rules as a tree of permissions nested within groups.
+Permissions can be either <code>true</code> or a block that takes an object. In that case the permission will
+be the result of the block evaluation.</p>
+
+<p><a href="https://www.codeship.io/projects/28071"><img src="https://www.codeship.io/projects/f3a90030-f43c-0131-65bd-5a054a318c0e/status" alt="Codeship Status for goddamnhippie/guachiman"></a></p>
+
+<h2>
+<a name="upgrading-to--100" class="anchor" href="#upgrading-to--100"><span class="octicon octicon-link"></span></a>Upgrading to ~&gt; 1.0.0</h2>
+
+<p><strong>Starting with version 1.0.0 all Rails-specific code and support has been removed.</strong>
+A new gem called <a href="https://github.com/goddamnhippie/guachiman-rails">guachiman-rails</a> will be the recommended way to use Guachiman with Rails.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Add this line to your application's <code>Gemfile</code>:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="n">gem</span> <span class="s1">'guachiman'</span>
+</pre></div>
+
+<p>And then execute:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>bundle
+</pre></div>
+
+<p>Or install it directly:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>gem install guachiman
+</pre></div>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Describe your authorization objects in this way:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="k">class</span> <span class="nc">Authorization</span>
+  <span class="kp">include</span> <span class="no">Guachiman</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">user</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+    <span class="k">if</span> <span class="vi">@current_user</span> <span class="o">=</span> <span class="n">user</span>
+      <span class="n">user_authorization</span>
+    <span class="k">else</span>
+      <span class="n">guest_authorization</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">guest_authorization</span>
+    <span class="n">allow</span> <span class="ss">:sessions</span><span class="p">,</span> <span class="o">[</span><span class="ss">:new</span><span class="o">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">user_authorization</span>
+    <span class="n">guest_authorization</span>
+
+    <span class="n">allow</span> <span class="ss">:users</span><span class="p">,</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:update</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">user_id</span><span class="o">|</span>
+      <span class="vi">@current_user</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">user_id</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>So that you can use them like this:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="n">user</span>  <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+
+<span class="n">guest_authorization</span> <span class="o">=</span> <span class="no">Authorization</span><span class="o">.</span><span class="n">new</span>
+<span class="n">user_authorization</span>  <span class="o">=</span> <span class="no">Authorization</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+<span class="n">guest_authorization</span><span class="o">.</span><span class="n">allow?</span><span class="p">(</span><span class="ss">:sessions</span><span class="p">,</span> <span class="ss">:new</span><span class="p">)</span>
+<span class="c1"># =&gt; true</span>
+
+<span class="n">user_authorization</span><span class="o">.</span><span class="n">allow?</span><span class="p">(</span><span class="ss">:users</span><span class="p">,</span> <span class="ss">:show</span><span class="p">)</span>
+<span class="c1"># =&gt; false</span>
+
+<span class="n">user_authorization</span><span class="o">.</span><span class="n">allow?</span><span class="p">(</span><span class="ss">:users</span><span class="p">,</span> <span class="ss">:show</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="c1"># =&gt; true</span>
+</pre></div>
+
+<h3>
+<a name="allow" class="anchor" href="#allow"><span class="octicon octicon-link"></span></a><code>#allow</code>
+</h3>
+
+<p>This is what you use to set permissions. It takes two parameters, <code>group</code> and <code>permissions</code>, and an optional block.</p>
+
+<h3>
+<a name="allow-1" class="anchor" href="#allow-1"><span class="octicon octicon-link"></span></a><code>#allow?</code>
+</h3>
+
+<p>This is what you use to check permissions. It takes a <code>group</code> param, a <code>permission</code> param, and an optional <code>object</code>
+param to evaluate in the block.</p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>MIT</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/goddamnhippie">goddamnhippie</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
