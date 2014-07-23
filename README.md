@@ -75,14 +75,7 @@ private
 end
 ```
 
-* `#allow` takes two parameters, `groups` and `permissions`, and a block. All are optional and depend on how
-specific you want to be. Always consider the following:
-
-1. If you call `#allow` without params, it means all combinations of group and permission will be allowed.
-2. If you call `#allow` specifying only the group, it all permissions will be allowed.
-3. You can always pass a block that takes one object, and the permission will be whatever it returns when evaluated.
-
-#### Examples
+So that you can use them like this:
 
 ```ruby
 user  = User.find(user_id)
@@ -104,7 +97,19 @@ admin_authorization.allow?(:users, :show)
 # => true
 ```
 
-* `#allow?` takes a `group` param, a `permission` param, a an optional `object` param to evaluate in the block.
+### `#allow`
+
+This is what you use to set permissions. It takes two parameters, `groups` and `permissions`, and a block.
+All are optional and depend on how specific you want to be. Always consider the following:
+
+1. If you call `#allow` without params, it means all combinations of group and permission will be allowed.
+2. If you call `#allow` specifying only the group, all permissions within that group will be allowed.
+3. You can always pass a block that takes one object, and the permission will depend on what returns when evaluated.
+
+### `#allow?`
+
+This is what you use to check permissions. It takes a `group` param, a `permission` param, and an optional `object`
+param to evaluate in the block.
 
 License
 -------
