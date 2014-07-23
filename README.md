@@ -1,10 +1,11 @@
 Guachiman
 =========
 
-Minimal authorization gem. Inspired by [RailsCast #385 Authorization from Scratch][1] by Ryan Bates.
+Minimal authorization library inspired by [RailsCast #385 Authorization from Scratch][1] by Ryan Bates.
 
-Guachiman allows you to store a tree of permissions separated by groups. Permissions can be either `true` or a block
-that takes an object. In that case the permission will be the result of the block evaluation.
+Guachiman allows you to store authorization rules as a tree of permissions nested within groups.
+Permissions can be either `true` or a block that takes an object. In that case the permission will
+be the result of the block evaluation.
 
 [1]: http://railscasts.com/episodes/385-authorization-from-scratch-part-1
 
@@ -38,7 +39,7 @@ Describe your authorization objects in this way:
 class Authorization
   include Guachiman
 
-  def initialize user
+  def initialize(user)
     @current_user = user
 
     if @current_user
@@ -75,9 +76,13 @@ end
 ```
 
 * `#allow` takes two parameters, `groups` and `permissions`, and a block. All are optional and depend on how
-specific you want to be.
+specific you want to be. Always consider the following:
 
-And you can use it in this way:
+1. If you call `#allow` without params, it means all combinations of group and permission will be allowed.
+2. If you call `#allow` specifying only the group, it all permissions will be allowed.
+3. You can always pass a block that takes one object, and the permission will be whatever it returns when evaluated.
+
+#### Examples
 
 ```ruby
 user  = User.find(user_id)

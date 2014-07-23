@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Guachiman::VERSION
   spec.authors       = ['Francesco Rodriguez', 'Gustavo Beathyate']
   spec.email         = ['lrodriguezsanc@gmail.com', 'gustavo.bt@me.com']
-  spec.summary       = 'Basic authorization library'
-  spec.description   = "#{ spec.summary } based on Ryan Bates' Railscasts #385 and #386"
+  spec.summary       = 'Minimal authorization library'
+  spec.description   = "#{ spec.summary } inspired by Ryan Bates' Railscasts #385 and #386"
   spec.homepage      = 'https://github.com/goddamnhippie/guachiman'
   spec.license       = 'MIT'
 
