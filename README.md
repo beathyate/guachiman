@@ -1,9 +1,9 @@
 Guachiman
 =========
 
-Minimal authorization gem. Inspired on [RailsCast #385 Authorization from Scratch][1] from Ryan Bates.
+Minimal authorization gem. Inspired by [RailsCast #385 Authorization from Scratch][1] by Ryan Bates.
 
-It simply stores a tree of permissions separated by groups. Permissions can be either `true` or a block
+Guachiman allows you to store a tree of permissions separated by groups. Permissions can be either `true` or a block
 that takes an object. In that case the permission will be the result of the block evaluation.
 
 [1]: http://railscasts.com/episodes/385-authorization-from-scratch-part-1
@@ -23,7 +23,7 @@ And then execute:
 $ bundle
 ```
 
-Or install it yourself as:
+Or install it directly:
 
 ```bash
 $ gem install guachiman
@@ -55,8 +55,9 @@ class Authorization
 private
 
   def guest_authorization
-    allow :sessions, [:new, :create, :destroy]
-    allow :users,    [:new, :create]
+    allow :sessions
+
+    allow :users, [:new, :create]
   end
 
   def member_authorization
@@ -68,13 +69,13 @@ private
   end
 
   def admin_authorization
-    allow_all!
+    allow
   end
 end
 ```
 
-* `#allow` takes a **group** params key or array of keys and an array of **permissions**.
-* `#allow_all!` is a convenience method to allow **all** groups and permissions.
+* `#allow` takes two parameters, `groups` and `permissions`, and a block. All are optional and depend on how
+specific you want to be.
 
 And you can use it in this way:
 
@@ -84,6 +85,9 @@ admin = User.find(admin_id)
 
 user_authorization  = Authorization.new(user)
 admin_authorization = Authorization.new(admin)
+
+user_authorization.allow?(:sessions, :new)
+# => true
 
 user_authorization.allow?(:users, :show)
 # => false
@@ -95,7 +99,7 @@ admin_authorization.allow?(:users, :show)
 # => true
 ```
 
-* `#allow?` takes a **group** param, a **permission** param, a an optional **object** param to evaluate in the block.
+* `#allow?` takes a `group` param, a `permission` param, a an optional `object` param to evaluate in the block.
 
 License
 -------

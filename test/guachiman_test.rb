@@ -7,9 +7,16 @@ class GuachimanTest < MiniTest::Unit::TestCase
 
       def initialize(admin = false)
         if admin
-          allow_all!
+          allow
         else
+          allow :basic_group
+
+          allow :block_group do |object|
+            object == 1
+          end
+
           allow :group, :basic_permission
+
           allow :group, :block_permission do |object|
             object == 1
           end
@@ -22,16 +29,26 @@ class GuachimanTest < MiniTest::Unit::TestCase
   end
 
   def test_admin_is_always_allowed
-    assert @admin_authorization.allow_all?
     assert @admin_authorization.allow?(:any_group, :any_permission)
   end
 
-  def test_basic_permission
+  def test_group_basic_rules
+    assert @guest_authorization.allow?(:basic_group, :any_permission)
+    refute @guest_authorization.allow?(:other_group, :any_permission)
+  end
+
+  def test_group_block_rules
+    refute @guest_authorization.allow?(:block_group, :any_permission)
+    refute @guest_authorization.allow?(:block_group, :any_permission, 0)
+    assert @guest_authorization.allow?(:block_group, :any_permission, 1)
+  end
+
+  def test_permission_basic_rules
     assert @guest_authorization.allow?(:group, :basic_permission)
     refute @guest_authorization.allow?(:group, :other_permission)
   end
 
-  def test_block_permission
+  def test_permission_block_rules
     refute @guest_authorization.allow?(:group, :block_permission)
     refute @guest_authorization.allow?(:group, :block_permission, 0)
     assert @guest_authorization.allow?(:group, :block_permission, 1)

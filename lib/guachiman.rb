@@ -1,21 +1,16 @@
 require 'guachiman/version'
 
 module Guachiman
-  def allow_all!
-    @_allow_all = true
-  end
-
-  def allow_all?
-    @_allow_all
-  end
-
   def rules
-    @_rules ||= {}
+    @_rules ||= { nil => {} }
   end
 
-  def allow(groups, permissions, &block)
-    Array(groups).each do |group|
-      Array(permissions).each do |permission|
+  def allow(groups = nil, permissions = nil, &block)
+    groups      = [groups]      unless groups.is_a?(Array)
+    permissions = [permissions] unless permissions.is_a?(Array)
+
+    groups.each do |group|
+      permissions.each do |permission|
         rules[group] ||= {}
         rules[group][permission] = (block || true)
       end
@@ -23,8 +18,10 @@ module Guachiman
   end
 
   def allow?(group, permission, object = nil)
-    if result = allow_all? || rules[group] && rules[group][permission]
-      result == true || object && result.call(object)
+    rule = rules[nil][nil] || rules[group] && (rules[group][nil] || rules[group][permission])
+
+    if rule
+      rule == true || object && rule.call(object)
     else
       false
     end
