@@ -102,9 +102,9 @@ admin_authorization.allow?(:users, :show)
 This is what you use to set permissions. It takes two parameters, `groups` and `permissions`, and a block.
 All are optional and depend on how specific you want to be. Always consider the following:
 
-1. If you call `#allow` without params, it means all combinations of group and permission will be allowed.
+1. If you call `#allow` without params, it means all combinations of groups and permissions will be allowed.
 2. If you call `#allow` specifying only the group, all permissions within that group will be allowed.
-3. You can always pass a block that takes one object, and the permission will depend on what returns when evaluated.
+3. You can always pass a block that takes an object, and the permission will depend on what returns when evaluated.
 
 ### `#allow?`
 
