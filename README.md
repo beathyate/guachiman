@@ -1,7 +1,6 @@
 Guachiman
 =========
 
-
 Minimal authorization library inspired by [RailsCast #385 Authorization from Scratch][1] by Ryan Bates.
 
 Guachiman allows you to store authorization rules as a tree of permissions nested within groups.
@@ -19,8 +18,7 @@ Upgrading to ~> 1.0.0
 ---------------------
 
 **Starting with version 1.0.0 all Rails-specific code and support has been removed.**
-A new gem called guachiman-rails will be the recommended way to use Guachiman with Rails.
-More info [in the repo][4].
+A new gem called [guachiman-rails][4] will be the recommended way to use Guachiman with Rails.
 
 [4]: https://github.com/goddamnhippie/guachiman-rails
 
@@ -58,7 +56,7 @@ class Authorization
 
   def initialize(user)
     if @current_user = user
-      member_authorization
+      user_authorization
     else
       guest_authorization
     end
@@ -70,7 +68,7 @@ private
     allow :sessions, [:new]
   end
 
-  def member_authorization
+  def user_authorization
     guest_authorization
 
     allow :users, [:show, :edit, :update] do |user_id|
