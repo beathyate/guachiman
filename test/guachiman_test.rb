@@ -33,8 +33,8 @@ class GuachimanTest < MiniTest::Unit::TestCase
   end
 
   def test_group_basic_rules
-    assert @guest_authorization.allow?(:basic_group, :any_permission)
     refute @guest_authorization.allow?(:other_group, :any_permission)
+    assert @guest_authorization.allow?(:basic_group, :any_permission)
   end
 
   def test_group_block_rules
@@ -44,8 +44,8 @@ class GuachimanTest < MiniTest::Unit::TestCase
   end
 
   def test_permission_basic_rules
-    assert @guest_authorization.allow?(:group, :basic_permission)
     refute @guest_authorization.allow?(:group, :other_permission)
+    assert @guest_authorization.allow?(:group, :basic_permission)
   end
 
   def test_permission_block_rules
