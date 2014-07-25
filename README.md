@@ -1,4 +1,4 @@
-Guachiman
+guachiman
 =========
 
 Minimal authorization library inspired by [RailsCast #385 Authorization from Scratch][1] by Ryan Bates.
