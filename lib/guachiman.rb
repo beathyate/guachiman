@@ -5,8 +5,8 @@ module Guachiman
     @rules ||= {}
   end
 
-  def allow(group, permissions, &block)
-    permissions.each do |permission|
+  def allow(group, *permissions, &block)
+    Array(permissions).each do |permission|
       rules[group] ||= {}
       rules[group][permission] = (block || true)
     end

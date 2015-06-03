@@ -8,9 +8,9 @@ class GuachimanTest < MiniTest::Test
       include Guachiman
 
       def initialize(user = 1)
-        allow :group, [:permission1, :permission2]
+        allow :group, :permission1, :permission2
 
-        allow :group, [:permission3, :permission4] do |object|
+        allow :group, :permission3, :permission4 do |object|
           object == user
         end
       end

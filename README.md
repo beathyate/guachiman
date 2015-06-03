@@ -55,16 +55,10 @@ class Authorization
   include Guachiman
 
   def initialize(user = nil)
-    allow :sessions, [:new, :create]
+    allow :sessions, :new, :create
 
-    if user
-      if user.admin?
-        @allow_all = true
-      else
-        allow :users, [:show, :edit, :update] do |user_id|
-          user.id == user_id
-        end
-      end
+    allow :users, :show, :edit, :update do |user_id|
+      user && user.id == user_id
     end
   end
 end
@@ -75,8 +69,8 @@ So that you can use them like this:
 ```ruby
 user  = User.find(user_id)
 
-guest_authorization  = Authorization.new
-user_authorization   = Authorization.new(user)
+guest_authorization = Authorization.new
+user_authorization  = Authorization.new(user)
 
 guest_authorization.allow?(:sessions, :new)
 # => true
