@@ -15,8 +15,6 @@ class GuachimanTest < MiniTest::Test
         end
       end
     end.new
-
-    p @authorization
   end
 
   def test_basic_rules
@@ -38,13 +36,5 @@ class GuachimanTest < MiniTest::Test
   def test_block_rules_with_good_object
     assert @authorization.allow?(:group, :permission3, 1)
     assert @authorization.allow?(:group, :permission4, 1)
-  end
-
-  def test_allow_all
-    refute @authorization.allow?(:group, :permission0)
-
-    @authorization.instance_variable_set(:@allow_all, true)
-
-    assert @authorization.allow?(:group, :permission0)
   end
 end

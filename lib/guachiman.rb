@@ -13,8 +13,6 @@ module Guachiman
   end
 
   def allow?(group, permission, object = nil)
-    return true if instance_variable_defined?(:@allow_all) && @allow_all
-
     if rule = rules[group] && rules[group][permission]
       rule == true || object && rule.call(object)
     else

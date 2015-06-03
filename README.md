@@ -74,20 +74,15 @@ So that you can use them like this:
 
 ```ruby
 user  = User.find(user_id)
-admin = User.find(admin_id)
 
 guest_authorization  = Authorization.new
 user_authorization   = Authorization.new(user)
-admin_authorization  = Authorization.new(admin)
 
 guest_authorization.allow?(:sessions, :new)
 # => true
 
 user_authorization.allow?(:users, :show)
 # => false
-
-admin_authorization.allow?(:users, :show)
-# => true
 
 user_authorization.allow?(:users, :show, user.id)
 # => true
@@ -100,7 +95,7 @@ This is what you use to set permissions. It takes two parameters, `group` and `p
 ### `#allow?`
 
 This is what you use to check permissions. It takes a `group` param, a `permission` param, and an optional `object`
-param to evaluate in the block. **If the instance variable `@allow_all` is set to `true` it will always return `true`.**
+param to evaluate in the block.
 
 
 License
