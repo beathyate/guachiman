@@ -14,15 +14,6 @@ be the result of the block evaluation.
 [3]: https://www.codeship.io/projects/28071
 
 
-Upgrading to 1.0.0+
--------------------
-
-**Starting with version 1.0.0 all Rails-specific code and support has been removed.**
-A new gem called [guachiman-rails][4] will be the recommended way to use Guachiman with Rails.
-
-[4]: https://github.com/goddamnhippie/guachiman-rails
-
-
 Installation
 ------------
 

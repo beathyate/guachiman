@@ -6,7 +6,7 @@ module Guachiman
   end
 
   def allow(group, *permissions, &block)
-    Array(permissions).each do |permission|
+    permissions.flatten.each do |permission|
       rules[group] ||= {}
       rules[group][permission] = (block || true)
     end

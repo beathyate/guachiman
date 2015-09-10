@@ -9,6 +9,7 @@ class GuachimanTest < MiniTest::Test
 
       def initialize(user = 1)
         allow :group, :permission1, :permission2
+        allow :group, [:legacy1, :legacy2]
 
         allow :group, :permission3, :permission4 do |object|
           object == user
@@ -21,6 +22,11 @@ class GuachimanTest < MiniTest::Test
     refute @authorization.allow?(:group, :permission0)
     assert @authorization.allow?(:group, :permission1)
     assert @authorization.allow?(:group, :permission2)
+  end
+
+  def test_legacy_rules
+    assert @authorization.allow?(:group, :legacy1)
+    assert @authorization.allow?(:group, :legacy2)
   end
 
   def test_block_rules_without_object
